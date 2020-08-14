@@ -5,8 +5,6 @@ import javax.swing.text.StyledDocument;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class ConverterView implements ActionListener {
 
@@ -27,7 +25,6 @@ public class ConverterView implements ActionListener {
 
     	buildPanel();
         frame.add(panel, BorderLayout.CENTER);
-        
         frame.setSize(600, 450);
         frame.setVisible(true);
     }
@@ -50,9 +47,13 @@ public class ConverterView implements ActionListener {
     	JPanel hexPanel = new JPanel();
     	hexPanel.add(hexPane);
     	hexPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
-
     	
-    	
+    	JPanel buttonPanel = new JPanel();
+    	JButton button = new JButton("Convert");
+        button.addActionListener(this);
+        button.setPreferredSize(new Dimension(400, 50));
+        buttonPanel.add(button);
+    	buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
     	
     	// center the text pane items
     	StyledDocument doc1 = UIColorPane.getStyledDocument();
@@ -64,11 +65,6 @@ public class ConverterView implements ActionListener {
     	SimpleAttributeSet center2 = new SimpleAttributeSet();
     	StyleConstants.setAlignment(center2, StyleConstants.ALIGN_CENTER);
     	doc2.setParagraphAttributes(0, doc2.getLength(), center2, false);
-    	
-    	
-    	
-        JButton button = new JButton("Convert");
-        button.addActionListener(this);
 
         panel.setBorder(BorderFactory.createEmptyBorder(10, 40, 20, 40));
         panel.setLayout(new GridLayout(0, 1));
@@ -83,11 +79,11 @@ public class ConverterView implements ActionListener {
         UIColorPane.setEditable(false);
         UIColorPane.setBackground(null); 
         UIColorPane.setBorder(null);
-        
+         
         panel.add(redPanel);
         panel.add(greenPanel);
         panel.add(bluePanel);
-        panel.add(button);        
+        panel.add(buttonPanel);        
         panel.add(hexPanel);
         panel.add(UIColorPanel);
     }
@@ -96,11 +92,12 @@ public class ConverterView implements ActionListener {
     public JPanel createColorInputPanel(String color) {
     	JPanel colorPanel = new JPanel();
     	JLabel colorLabel = new JLabel(color + ":");
-    	colorPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+    	colorPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
     	colorPanel.setLayout(new GridLayout(1, 0));
     	colorPanel.add(colorLabel);
     	return colorPanel;
     }
+    
     
     public String formatHexString(int value) {
     	String result;
@@ -109,9 +106,9 @@ public class ConverterView implements ActionListener {
     	} else {
     		result = Integer.toString(value, 16);
     	}
-    	
     	return result;
     }
+    
     
     public String formatUIColorString(int red, int green, int blue) {
     	float redValue = (float) (red/255.0);
@@ -121,6 +118,7 @@ public class ConverterView implements ActionListener {
     	String result = String.format("UIColor(red: %.3f, green: %.3f, blue: %.3f, alpha: 1.00)", redValue, greenValue, blueValue);
     	return result;
     }
+    
 
     public void actionPerformed(ActionEvent e) {
     	// handle errors
@@ -128,16 +126,18 @@ public class ConverterView implements ActionListener {
     	int greenInput = Integer.parseInt(greenTextField.getText());
     	int blueInput = Integer.parseInt(blueTextField.getText());
     	
+    	panel.setBackground(new Color(redInput, greenInput, blueInput));
+    	
     	String redHex = formatHexString(redInput);
     	String greenHex = formatHexString(greenInput);
     	String blueHex = formatHexString(blueInput);
-    	
     	
         hexPane.setText("#" + redHex + "" + greenHex + "" + blueHex);
         hexPane.setFont(new java.awt.Font("Arial", Font.BOLD, 16));
         
         UIColorPane.setText(formatUIColorString(redInput, greenInput, blueInput));
     }
+    
     
     // create one Frame
     public static void main(String[] args) {
