@@ -20,7 +20,7 @@ public class ConverterView implements ActionListener {
 
 	
     public ConverterView() {
-    	frame.setTitle("RGB To UIColor Converter");
+    	frame.setTitle("RGB2Hex");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     	buildPanel();
