@@ -114,9 +114,9 @@ public class ConverterView implements ActionListener {
     }
     
     public String formatUIColorString(int red, int green, int blue) {
-    	float redValue = red/255;
-    	float greenValue = green/255;
-    	float blueValue = blue/255;
+    	float redValue = (float) (red/255.0);
+    	float greenValue = (float) (green/255.0);
+    	float blueValue = (float) (blue/255.0);
     	
     	String result = String.format("UIColor(red: %.3f, green: %.3f, blue: %.3f, alpha: 1.00)", redValue, greenValue, blueValue);
     	return result;
